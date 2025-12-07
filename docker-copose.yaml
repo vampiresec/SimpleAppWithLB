@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  app:
+    image: sample-app-lb:v1 
+    networks:
+      - app-net
+    deploy:
+      replicas: 5
+  loadbalancer:
+    image: nginx:latest
+    container_name: app-loadbalancer
+    volumes:
+      - /home/ping/PingFederate-Docker/LoadBalancer/conf.d/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 80:80
+    networks:
+      - app-net
+networks:
+  app-net:
